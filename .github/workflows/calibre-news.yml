@@ -27,6 +27,7 @@ jobs:
       to: ${{ secrets.TO }}
       ext: ${{ secrets.FORMAT || 'epub' }}
       size: ${{ secrets.SIZE || 25 }}
+      robotKey: ${{ secrets.ROBOT_KEY }}
     steps:
       - name: Checking Variable
         run: |
@@ -55,6 +56,16 @@ jobs:
           sudo apt-get install libegl1 libopengl0 libxcb-cursor0
           url=https://download.calibre-ebook.com/linux-installer.sh
           sudo -v && wget -nv -O- $url | sudo sh /dev/stdin
+          curl 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=$robotKey' \
+           -H 'Content-Type: application/json' \
+           -d '
+            {
+                "msgtype": "text",
+                "text": {
+                    "content": "hello world1",
+                     "mentioned_list": ["@all"]
+                }
+            }';
       - name: Retrieving Recipe
         if: ${{ success() }}
         uses: actions/checkout@v4
