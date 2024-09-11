@@ -56,7 +56,8 @@ jobs:
           sudo apt-get install libegl1 libopengl0 libxcb-cursor0
           url=https://download.calibre-ebook.com/linux-installer.sh
           sudo -v && wget -nv -O- $url | sudo sh /dev/stdin
-          curl 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=$robotKey' \
+          echo "RobotKey: $robotKey"
+          curl 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key="$robotKey"' \
            -H 'Content-Type: application/json' \
            -d '
             {
